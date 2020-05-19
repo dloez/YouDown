@@ -2,7 +2,6 @@ import time
 import win32clipboard
 from pytube import YouTube
 import os
-import json
 
 
 LAST_URL_FILE = "last_url.json"
