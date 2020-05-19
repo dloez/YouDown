@@ -1,6 +1,6 @@
 import time
 import win32clipboard
-from pytube import YouTube
+from pytube import YouTube, Playlist
 import os
 
 
@@ -27,11 +27,25 @@ while True:
 
     if url and last_url != url:
         if url.startswith("https://www.youtube.com/watch?v"):
-            print("Video detectado, descargando...")
-            YouTube(url).streams.get_highest_resolution().download(OUTPUT_FOLDER)
-            print("Video descargado")
-            print("#########################################################")
+            if "list" not in url:
+                print("Video detected, downloading...")
+                YouTube(url).streams.get_highest_resolution().download(OUTPUT_FOLDER)
+                print("Video downloaded")
+                print("#########################################################")
+            else:
+                print("Playlist detected, downloading...")
+                playlist = Playlist(url)
 
-            last_url = url
+                for i in range(len(playlist)):
+                    print("downloading video number {}, {} more to go".format(i + 1, len(playlist) - (i + 1)))
+                    try:
+                        YouTube(playlist[i]).streams.get_highest_resolution().download(OUTPUT_FOLDER)
+                    except:
+                        print("This video is not available, skipping...: {0}".format(playlist[i]))
+
+                print("Playlist descargada")
+                print("#########################################################")
+
+        last_url = url
 
     time.sleep(0.1)
