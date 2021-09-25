@@ -45,7 +45,5 @@ while True:
 
                 print("Playlist descargada")
                 print("#########################################################")
-
         last_url = url
-
     time.sleep(0.1)
